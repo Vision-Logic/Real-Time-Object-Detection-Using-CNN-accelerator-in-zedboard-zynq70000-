@@ -1,0 +1,36 @@
+module cnn_tb;
+
+    reg clk = 0;
+    reg rst =1;
+    reg start=0;
+    reg [7:0] pixel_in;
+    reg [7:0] weight_in;
+
+    wire done;
+    wire [15:0] feature_out;
+
+    cnn_accelerator dut (
+        .clk(clk),
+        .rst(rst),
+        .start(start),
+        .pixel_in(pixel_in),
+        .weight_in(weight_in),
+        .done(done),
+        .feature_out(feature_out)
+    );
+
+    always #5 clk = ~clk;  // 100 MHz
+
+    initial begin
+        rst = 1;
+        #10 rst = 0;
+
+        pixel_in = 8'd10;
+        weight_in = 8'd3;
+        start = 1;
+
+        #50;
+       $stop;
+    end
+
+endmodule
