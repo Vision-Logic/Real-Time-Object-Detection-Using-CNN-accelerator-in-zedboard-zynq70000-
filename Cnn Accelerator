@@ -1,0 +1,36 @@
+module cnn_accelerator (
+    input clk,
+    input rst,
+    input start,
+    input [7:0] pixel_in,
+    input [7:0] weight_in,
+    output reg done,
+    output [15:0] feature_out
+);
+
+    wire [15:0] conv_out;
+    wire [15:0] relu_out;
+
+    conv2d conv (
+        .clk(clk),
+        .rst(rst),
+        .pixel(pixel_in),
+        .weight(weight_in),
+        .conv_out(conv_out)
+    );
+
+    relu relu_unit (
+        .data_in(conv_out),
+        .data_out(relu_out)
+    );
+
+    assign feature_out = relu_out;
+
+    always @(posedge clk) begin
+        if (rst)
+            done <= 0;
+        else if (start)
+            done <= 1;
+    end
+
+endmodule
