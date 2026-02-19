@@ -1,0 +1,8 @@
+module max_pool (
+    input [15:0] a, b, c, d,
+    output [15:0] max_out
+);
+
+    assign max_out = (a>b && a>c && a>d) ? a :(b>c && b>d)? b :(c>d)? c : d;
+
+endmodule
