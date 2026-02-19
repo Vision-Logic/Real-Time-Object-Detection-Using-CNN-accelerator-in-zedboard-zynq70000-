@@ -1,0 +1,23 @@
+module conv2d (
+    input clk,
+    input rst,
+    input [7:0] pixel,
+    input [7:0] weight,
+    input valid,
+    output reg [31:0] conv_out
+);
+
+    reg [15:0] mult_result;
+
+    always @(posedge clk) begin
+        if (rst) begin
+            mult_result <= 0;
+            conv_out <= 0;
+        end
+        else if (valid) begin
+            mult_result <= pixel * weight;
+            conv_out <= conv_out + mult_result;
+        end
+    end
+
+endmodule
